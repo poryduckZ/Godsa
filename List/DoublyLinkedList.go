@@ -4,32 +4,33 @@ import "fmt"
 
 type DoublyNode struct {
 	value int
-	prev  *Node
-	next  *Node
+	prev  *DoublyNode
+	next  *DoublyNode
 }
 
 type DoublyLinkedList struct {
-	head *Node
-	tail *Node
+	head *DoublyNode
+	tail *DoublyNode
 }
 
-func NewDoublyNode(value int) *Node {
-	node := &Node{value: value}
+func NewDoublyNode(value int) *DoublyNode {
+	node := &DoublyNode{value: value}
 	return node
 }
 
 func NewDoublyLinkedList() *DoublyLinkedList {
-	doublyLinkedList := &DoublyLinkedList{head: nil}
+	doublyLinkedList := &DoublyLinkedList{head: nil, tail: nil}
 	return doublyLinkedList
 }
 
 func (l *DoublyLinkedList) Insert(value int) *DoublyLinkedList {
 	if l.head == nil {
-		l.head = NewNode(value)
+		l.head = NewDoublyNode(value)
 		l.tail = l.head
 	} else {
-		newNode := NewNode(value)
+		newNode := NewDoublyNode(value)
 		l.tail.next = newNode
+		newNode.prev = l.tail
 		l.tail = l.tail.next
 	}
 	return l
@@ -47,6 +48,7 @@ func (l *DoublyLinkedList) Remove(value int) *DoublyLinkedList {
 	for currentNode.next != nil {
 		if currentNode.next.value == value {
 			currentNode.next = currentNode.next.next
+			currentNode.next.prev = currentNode
 			return l
 		}
 		currentNode = currentNode.next
