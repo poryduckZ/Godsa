@@ -8,7 +8,8 @@ type ArrayList struct {
 }
 
 func NewArrayList() *ArrayList {
-	return &ArrayList{}
+	l := &ArrayList{data: make([]int, 10), currIdx: 0}
+	return l
 }
 
 func (l *ArrayList) Insert(value int) *ArrayList {
@@ -50,8 +51,14 @@ func (l *ArrayList) Remove(value int) *ArrayList {
 
 func (l *ArrayList) Print() string {
 	var result string
+	result += "["
 	for i := 0; i < l.currIdx; i++ {
-		result += fmt.Sprintf("%d\n", l.data[i])
+		if i == l.currIdx-1 {
+			result += fmt.Sprintf("%d", l.data[i])
+		} else {
+			result += fmt.Sprintf("%d, ", l.data[i])
+		}
 	}
+	result += "]"
 	return result
 }
